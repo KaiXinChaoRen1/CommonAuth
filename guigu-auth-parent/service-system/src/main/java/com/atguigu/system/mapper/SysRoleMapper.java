@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SysRoleMapper extends BaseMapper<SysRole> {
-
+    //TODO 啥玩意是@Param?
     //条件分页查询
     IPage<SysRole> selectPage(Page<SysRole> pageParam,@Param("vo") SysRoleQueryVo sysRoleQueryVo);
 }
