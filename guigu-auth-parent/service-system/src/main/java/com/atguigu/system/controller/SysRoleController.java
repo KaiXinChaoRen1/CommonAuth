@@ -15,8 +15,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
+
 
 @Api(tags = "角色管理接口")
 @RestController
@@ -26,20 +28,23 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
+    //*********************************给用户分配角色****************************
 
-    @ApiOperation("获取用户的角色数据")
+    @ApiOperation("获取用户已分配的角色和所有角色")
     @GetMapping("toAssign/{userId}")
     public Result toAssign(@PathVariable String userId) {
-        Map<String,Object> roleMap = sysRoleService.getRolesByUserId(userId);
+        Map<String, Object> roleMap = sysRoleService.getRolesByUserId(userId);
         return Result.ok(roleMap);
     }
 
-    @ApiOperation("用户分配角色")
+    @ApiOperation("给用户分配角色")
     @PostMapping("doAssign")
     public Result doAssign(@RequestBody AssginRoleVo assginRoleVo) {
         sysRoleService.doAssign(assginRoleVo);
         return Result.ok();
     }
+
+    //*************************************基础CRUD*****************************
 
     //7 批量删除
     @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
@@ -50,20 +55,20 @@ public class SysRoleController {
         return Result.ok();
     }
 
-    //6 修改-最终修改
+    //6 修改-2.修改
     @PreAuthorize("hasAuthority('bnt.sysRole.update')")
     @ApiOperation("最终修改")
     @PostMapping("update")
     public Result updateRole(@RequestBody SysRole sysRole) {
         boolean isSuccess = sysRoleService.updateById(sysRole);
-        if(isSuccess) {
+        if (isSuccess) {
             return Result.ok();
         } else {
             return Result.fail();
         }
     }
 
-    //5 修改-根据id查询
+    //5 修改-1.查询数据回显
     @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     @ApiOperation("根据id查询")
     @PostMapping("findRoleById/{id}")
@@ -73,13 +78,13 @@ public class SysRoleController {
     }
 
     //4 添加
-    @Log(title = "角色管理",businessType = BusinessType.INSERT)
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation("添加角色")
     @PostMapping("save")
     public Result saveRole(@RequestBody SysRole sysRole) {
         boolean isSuccess = sysRoleService.save(sysRole);
-        if(isSuccess) {
+        if (isSuccess) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -95,9 +100,9 @@ public class SysRoleController {
                                     @PathVariable Long limit,
                                     SysRoleQueryVo sysRoleQueryVo) {
         //创建page对象
-        Page<SysRole> pageParam = new Page<>(page,limit);
+        Page<SysRole> pageParam = new Page<>(page, limit);
         //调用service方法
-        IPage<SysRole> pageModel = sysRoleService.selectPage(pageParam,sysRoleQueryVo);
+        IPage<SysRole> pageModel = sysRoleService.selectPage(pageParam, sysRoleQueryVo);
         //返回
         return Result.ok(pageModel);
     }
@@ -108,7 +113,7 @@ public class SysRoleController {
     @DeleteMapping("remove/{id}")
     public Result removeRole(@PathVariable Long id) {
         boolean isSuccess = sysRoleService.removeById(id);
-        if(isSuccess) {
+        if (isSuccess) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -121,10 +126,10 @@ public class SysRoleController {
     public Result findAllRole() {
         //TODO 模拟异常效果  ArithmeticException
         try {
-            int i = 9/0;
-        }catch (Exception e) {
+            int i = 9 / 0;
+        } catch (Exception e) {
             //手动抛出异常
-            throw new GuiguException(20001,"执行自定义异常处理");
+            throw new GuiguException(20001, "执行自定义异常处理");
         }
 
         List<SysRole> list = sysRoleService.list();

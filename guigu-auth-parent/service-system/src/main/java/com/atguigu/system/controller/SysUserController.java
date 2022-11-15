@@ -13,14 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * <p>
- * 用户表 前端控制器
- * </p>
- *
- * @author atguigu
- * @since 2022-09-28
- */
+
 @Api(tags = "用户管理接口")
 @RestController
 @RequestMapping("/admin/system/sysUser")
@@ -29,23 +22,23 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
-    @ApiOperation("更改用户状态")
+    @ApiOperation("更改用户状态(0-停用,1-正常使用)")
     @GetMapping("updateStatus/{id}/{status}")
     public Result updateStatus(@PathVariable String id,
                                @PathVariable Integer status) {
-        sysUserService.updateStatus(id,status);
+        sysUserService.updateStatus(id, status);
         return Result.ok();
     }
 
-    @ApiOperation("用户列表")
+    //********************************基础CRUD*******************************
+
+    @ApiOperation("用户列表(条件分页)")
     @GetMapping("/{page}/{limit}")
     public Result list(@PathVariable Long page,
                        @PathVariable Long limit,
                        SysUserQueryVo sysUserQueryVo) {
-        //创建page对象
-        Page<SysUser> pageParam = new Page<>(page,limit);
-        //调用service方法
-        IPage<SysUser> pageModel = sysUserService.selectPage(pageParam,sysUserQueryVo);
+        Page<SysUser> pageParam = new Page<>(page, limit);
+        IPage<SysUser> pageModel = sysUserService.selectPage(pageParam, sysUserQueryVo);
         return Result.ok(pageModel);
     }
 
@@ -56,7 +49,7 @@ public class SysUserController {
         String encrypt = MD5.encrypt(user.getPassword());
         user.setPassword(encrypt);
         boolean is_Success = sysUserService.save(user);
-        if(is_Success) {
+        if (is_Success) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -74,7 +67,7 @@ public class SysUserController {
     @PostMapping("update")
     public Result update(@RequestBody SysUser user) {
         boolean is_Success = sysUserService.updateById(user);
-        if(is_Success) {
+        if (is_Success) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -85,7 +78,7 @@ public class SysUserController {
     @DeleteMapping("remove/{id}")
     public Result remove(@PathVariable String id) {
         boolean is_Success = sysUserService.removeById(id);
-        if(is_Success) {
+        if (is_Success) {
             return Result.ok();
         } else {
             return Result.fail();

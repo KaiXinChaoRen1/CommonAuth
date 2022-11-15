@@ -11,20 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <p>
- * 菜单表 前端控制器
- * </p>
- *
- * @author atguigu
- * @since 2022-09-29
+ *  68~80集
  */
-@Api(tags = "菜单管理")
+@Api(tags = "菜单权限管理")
 @RestController
 @RequestMapping("/admin/system/sysMenu")
 public class SysMenuController {
 
     @Autowired
     private SysMenuService sysMenuService;
+
+    //***************给角色分配菜单权限跟给用户分配角色类似***************
 
     @ApiOperation("给角色分配菜单权限")
     @PostMapping("/doAssign")
@@ -33,7 +30,6 @@ public class SysMenuController {
         return Result.ok();
     }
 
-    //根据角色分配菜单
     @ApiOperation("根据角色获取菜单")
     @GetMapping("/toAssign/{roleId}")
     public Result toAssign(@PathVariable String roleId) {
@@ -41,7 +37,8 @@ public class SysMenuController {
         return Result.ok(list);
     }
 
-    //菜单列表（树形）
+
+    //TODO 里边有个递归生成导航树可以看一下
     @ApiOperation("菜单列表")
     @GetMapping("findNodes")
     public Result findNodes() {

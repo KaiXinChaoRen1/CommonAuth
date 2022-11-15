@@ -32,12 +32,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         return pageModel;
     }
 
-    //获取用户的角色数据
+    //获取用户已分配的角色和所有角色
     @Override
-    public Map<String, Object> getRolesByUserId(String userId) {
+    public Map<String, Object>  getRolesByUserId(String userId) {
         //获取所有角色
         List<SysRole> roles = baseMapper.selectList(null);
-        //根据用户id查询，已经分配角色
+        //根据用户id查询，已经分配角色数据集合
         QueryWrapper<SysUserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId);
         List<SysUserRole> userRolesList = sysUserRoleMapper.selectList(wrapper);
@@ -49,8 +49,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         //封装到map集合
         Map<String, Object> returnMap = new HashMap<>();
-        returnMap.put("allRoles",roles);//所有角色
-        returnMap.put("userRoleIds",userRoleIds);//用户分配角色id集合
+        returnMap.put("allRoles",roles);            //所有角色
+        returnMap.put("userRoleIds",userRoleIds);   //用户已分配角色id集合
         return returnMap;
     }
 
