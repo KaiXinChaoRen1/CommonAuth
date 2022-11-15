@@ -18,7 +18,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-//swagger2配置类
+/**
+ * swagger2使用Knife4j增强的配置类
+ */
 @Configuration
 @EnableSwagger2WebMvc
 public class Knife4jConfig {
@@ -43,19 +45,18 @@ public class Knife4jConfig {
                 .select()
                 //只显示admin路径下的页面
                 .apis(RequestHandlerSelectors.basePackage("com.atguigu"))
-                .paths(PathSelectors.regex("/admin/.*"))
+                .paths(PathSelectors.regex("/admin/.*"))    //符合的才显示
                 .build()
                 .globalOperationParameters(pars);
         return adminApi;
     }
 
     private ApiInfo adminApiInfo(){
-
         return new ApiInfoBuilder()
-                .title("后台管理系统-API文档")
-                .description("本文档描述了后台管理系统微服务接口定义")
-                .version("1.0")
-                .contact(new Contact("atguigu", "http://atguigu.com", "atguigu@qq.com"))
+                .title("我是title,广告位招租")
+                .description("我是描述,广告位招租")
+                .version("我是版本,广告位招租")
+                .contact(new Contact("hehe", "http://hehe.com", "lwq@hehe.com"))
                 .build();
     }
 
