@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+/**
+ * 异常处理器
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -39,6 +41,7 @@ public class GlobalExceptionHandler {
 
     /**
      * spring security异常
+     *
      * @param e
      * @return
      */
