@@ -26,7 +26,6 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
-    // http://localhost:8800/admin/system/sysRole/findAll
 
     @ApiOperation("获取用户的角色数据")
     @GetMapping("toAssign/{userId}")
@@ -43,8 +42,6 @@ public class SysRoleController {
     }
 
     //7 批量删除
-    // 多个id值 [1,2,3]
-    // json数组格式 --- java的list集合
     @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     @ApiOperation("批量删除")
     @DeleteMapping("batchRemove")
@@ -76,8 +73,6 @@ public class SysRoleController {
     }
 
     //4 添加
-    // @RequestBody 不能使用get提交方式
-    // 传递json格式数据，把json格式数据封装到对象里面 {...}
     @Log(title = "角色管理",businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation("添加角色")
@@ -91,7 +86,7 @@ public class SysRoleController {
         }
     }
 
-    //3 条件分页查询
+    //3 条件分页查询,学了一百遍了
     // page当前页  limit每页记录数
     @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     @ApiOperation("条件分页查询")
@@ -112,7 +107,6 @@ public class SysRoleController {
     @ApiOperation("逻辑删除接口")
     @DeleteMapping("remove/{id}")
     public Result removeRole(@PathVariable Long id) {
-        //调用方法删除
         boolean isSuccess = sysRoleService.removeById(id);
         if(isSuccess) {
             return Result.ok();
@@ -122,7 +116,7 @@ public class SysRoleController {
     }
 
     //1 查询所有记录
-    @ApiOperation("查询所有记录")
+    @ApiOperation("查询所有角色")
     @GetMapping("findAll")
     public Result findAllRole() {
         //TODO 模拟异常效果  ArithmeticException
@@ -133,7 +127,6 @@ public class SysRoleController {
             throw new GuiguException(20001,"执行自定义异常处理");
         }
 
-        //调用service
         List<SysRole> list = sysRoleService.list();
         return Result.ok(list);
     }
