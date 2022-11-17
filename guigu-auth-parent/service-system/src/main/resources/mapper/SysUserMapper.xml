@@ -5,14 +5,14 @@
     <resultMap id="sysUserMap" type="com.atguigu.model.system.SysUser" autoMapping="true"></resultMap>
 
     <select id="selectPage" resultMap="sysUserMap">
-        select  id,username,password,name,phone,head_url,post_id,
-                dept_id,description,status,create_time,update_time,is_deleted
+        select id,username,password,name,phone,head_url,post_id,
+        dept_id,description,status,create_time,update_time,is_deleted
         from sys_user
         <where>
             <if test="vo.keyword != null and vo.keyword != ''">
                 and (username like CONCAT('%',#{vo.keyword},'%')
-                or  name like CONCAT('%',#{vo.keyword},'%')
-                or  phone like CONCAT('%',#{vo.keyword},'%'))
+                or name like CONCAT('%',#{vo.keyword},'%')
+                or phone like CONCAT('%',#{vo.keyword},'%'))
             </if>
             <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
                 and create_time >= #{vo.createTimeBegin}

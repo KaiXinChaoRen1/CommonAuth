@@ -2,18 +2,12 @@ package com.atguigu.model.vo;
 
 
 /**
- * 登录对象
+ * 登录对象Vo
  */
 public class LoginVo {
 
-    /**
-     * 手机号
-     */
     private String username;
 
-    /**
-     * 密码
-     */
     private String password;
 
     public String getUsername() {

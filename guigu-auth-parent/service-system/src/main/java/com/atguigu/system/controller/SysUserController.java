@@ -42,12 +42,15 @@ public class SysUserController {
         return Result.ok(pageModel);
     }
 
+    /**
+     *  用户密码加密存储
+     */
     @ApiOperation("添加用户")
     @PostMapping("save")
     public Result save(@RequestBody SysUser user) {
-        //把输入密码进行加密 MD5
-        String encrypt = MD5.encrypt(user.getPassword());
-        user.setPassword(encrypt);
+        //密码进行MD5加密
+        String encryptedPassword = MD5.encrypt(user.getPassword());
+        user.setPassword(encryptedPassword);
         boolean is_Success = sysUserService.save(user);
         if (is_Success) {
             return Result.ok();

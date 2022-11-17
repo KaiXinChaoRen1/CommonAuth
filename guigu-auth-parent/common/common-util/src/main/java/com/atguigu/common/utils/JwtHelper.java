@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import java.util.Date;
 
 /**
- * 生成JSON Web令牌的工具类
+ * JWT工具类
  */
 public class JwtHelper {
 
@@ -57,14 +57,15 @@ public class JwtHelper {
         }
     }
 
-    public static void main(String[] args) {
-        String token = JwtHelper.createToken("1", "test");
-        System.out.println(token);
-
-        String userId = JwtHelper.getUserId(token);
-        System.out.println(userId);
-
-        String username = JwtHelper.getUsername(token);
-        System.out.println(username);
-    }
+//    //测试使用
+//    public static void main(String[] args) {
+//        String token = JwtHelper.createToken("1", "test");      //这个方法用jdk17会报错!!
+//        System.out.println(token);
+//
+//        String userId = JwtHelper.getUserId(token);
+//        System.out.println(userId);
+//
+//        String username = JwtHelper.getUsername(token);
+//        System.out.println(username);
+//    }
 }
