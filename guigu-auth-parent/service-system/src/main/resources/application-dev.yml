@@ -8,16 +8,16 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://bj-cynosdbmysql-grp-q8gh40uo.sql.tencentcdb.com:29119/guigu-auth?useSSL=false
     username: root
-    password: root
+    password: Aa@111111
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   redis:
-    host: 192.168.197.128
+    host: 43.143.216.21
     port: 6379
     database: 0
     timeout: 1800000
-    password:
+    password: Aa@111111
     jedis:
       pool:
         max-active: 20 #最大连接数
