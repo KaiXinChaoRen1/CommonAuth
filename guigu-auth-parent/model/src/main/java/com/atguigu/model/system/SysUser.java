@@ -13,8 +13,8 @@ import java.util.List;
 @Data
 @ApiModel(description = "用户")
 @TableName("sys_user")
-public class MySystemUser extends BaseEntity {
-	
+public class SysUser extends BaseEntity {
+
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "用户名")
@@ -55,11 +55,10 @@ public class MySystemUser extends BaseEntity {
 
 	@TableField(exist = false)
 	private List<SysRole> roleList;
-	//岗位
+	// 岗位
 	@TableField(exist = false)
 	private String postName;
-	//部门
+	// 部门
 	@TableField(exist = false)
 	private String deptName;
 }
-

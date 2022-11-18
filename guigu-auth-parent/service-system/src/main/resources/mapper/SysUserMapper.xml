@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.atguigu.system.mapper.MySystemUserMapper">
+<mapper namespace="com.atguigu.system.mapper.SysUserMapper">
 
-    <resultMap id="MySystemUserMap" type="com.atguigu.model.system.MySystemUser" autoMapping="true"></resultMap>
+    <resultMap id="SysUserMap" type="com.atguigu.model.system.SysUser" autoMapping="true"></resultMap>
 
-    <select id="selectPage" resultMap="MySystemUserMap">
+    <select id="selectPage" resultMap="SysUserMap">
         select id,username,password,name,phone,head_url,post_id,
         dept_id,description,status,create_time,update_time,is_deleted
         from sys_user

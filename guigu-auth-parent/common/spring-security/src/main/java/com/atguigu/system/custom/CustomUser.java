@@ -1,6 +1,6 @@
 package com.atguigu.system.custom;
 
-import com.atguigu.model.system.MySystemUser;
+import com.atguigu.model.system.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -11,21 +11,20 @@ import java.util.Collection;
  */
 public class CustomUser extends User {
 
+    // 我们自己的用户实体对象，要调取用户信息时直接获取这个实体对象
+    private SysUser SysUser;
 
-    //我们自己的用户实体对象，要调取用户信息时直接获取这个实体对象
-    private MySystemUser MySystemUser;
-
-    //参数1,用户数据--参数2,权限数据
-    public CustomUser(MySystemUser MySystemUser, Collection<? extends GrantedAuthority> authorities) {
-        super(MySystemUser.getUsername(), MySystemUser.getPassword(), authorities);
-        this.MySystemUser = MySystemUser;
+    // 参数1,用户数据--参数2,权限数据
+    public CustomUser(SysUser SysUser, Collection<? extends GrantedAuthority> authorities) {
+        super(SysUser.getUsername(), SysUser.getPassword(), authorities);
+        this.SysUser = SysUser;
     }
 
-    public MySystemUser getMySystemUser() {
-        return MySystemUser;
+    public SysUser getSysUser() {
+        return SysUser;
     }
 
-    public void setMySystemUser(MySystemUser MySystemUser) {
-        this.MySystemUser = MySystemUser;
+    public void setSysUser(SysUser SysUser) {
+        this.SysUser = SysUser;
     }
 }

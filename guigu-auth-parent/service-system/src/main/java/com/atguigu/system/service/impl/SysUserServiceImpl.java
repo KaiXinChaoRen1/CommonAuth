@@ -1,11 +1,11 @@
 package com.atguigu.system.service.impl;
 
-import com.atguigu.model.system.MySystemUser;
+import com.atguigu.model.system.SysUser;
 import com.atguigu.model.vo.RouterVo;
-import com.atguigu.model.vo.MySystemUserQueryVo;
-import com.atguigu.system.mapper.MySystemUserMapper;
+import com.atguigu.model.vo.SysUserQueryVo;
+import com.atguigu.system.mapper.SysUserMapper;
 import com.atguigu.system.service.SysMenuService;
-import com.atguigu.system.service.MySystemUserService;
+import com.atguigu.system.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -26,54 +26,54 @@ import java.util.Map;
  * @since 2022-09-28
  */
 @Service
-public class MySystemUserServiceImpl extends ServiceImpl<MySystemUserMapper, MySystemUser> implements MySystemUserService {
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Autowired
     private SysMenuService sysMenuService;
 
-    //用户列表
+    // 用户列表
     @Override
-    public IPage<MySystemUser> selectPage(Page<MySystemUser> pageParam, MySystemUserQueryVo MySystemUserQueryVo) {
-        return baseMapper.selectPage(pageParam,MySystemUserQueryVo);
+    public IPage<SysUser> selectPage(Page<SysUser> pageParam, SysUserQueryVo SysUserQueryVo) {
+        return baseMapper.selectPage(pageParam, SysUserQueryVo);
     }
 
-    //更改用户状态
+    // 更改用户状态
     @Override
     public void updateStatus(String id, Integer status) {
-        //根据用户id查询
-        MySystemUser MySystemUser = baseMapper.selectById(id);
-        //设置修改状态
-        MySystemUser.setStatus(status);
-        //调用方法修改
-        baseMapper.updateById(MySystemUser);
+        // 根据用户id查询
+        SysUser SysUser = baseMapper.selectById(id);
+        // 设置修改状态
+        SysUser.setStatus(status);
+        // 调用方法修改
+        baseMapper.updateById(SysUser);
     }
 
-    //username查询
+    // username查询
     @Override
-    public MySystemUser getUserInfoByUserName(String username) {
-        QueryWrapper<MySystemUser> wrapper = new QueryWrapper<>();
-        wrapper.eq("username",username);
+    public SysUser getUserInfoByUserName(String username) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
         return baseMapper.selectOne(wrapper);
     }
 
-    //根据用户名称获取用户信息（基本信息 和 菜单权限 和 按钮权限数据）
+    // 根据用户名称获取用户信息（基本信息 和 菜单权限 和 按钮权限数据）
     @Override
     public Map<String, Object> getUserInfo(String username) {
-        //根据username查询用户基本信息
-        MySystemUser MySystemUser = this.getUserInfoByUserName(username);
-        //根据userid查询菜单权限值
-        List<RouterVo> routerVolist = sysMenuService.getUserMenuList(MySystemUser.getId());
-        //根据userid查询按钮权限值
-        List<String> permsList = sysMenuService.getUserButtonList(MySystemUser.getId());
+        // 根据username查询用户基本信息
+        SysUser SysUser = this.getUserInfoByUserName(username);
+        // 根据userid查询菜单权限值
+        List<RouterVo> routerVolist = sysMenuService.getUserMenuList(SysUser.getId());
+        // 根据userid查询按钮权限值
+        List<String> permsList = sysMenuService.getUserButtonList(SysUser.getId());
 
-        Map<String,Object> result = new HashMap<>();
-        result.put("name",username);
-        result.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        result.put("roles","[\"admin\"]");
-        //菜单权限数据
-        result.put("routers",routerVolist);
-        //按钮权限数据
-        result.put("buttons",permsList);
+        Map<String, Object> result = new HashMap<>();
+        result.put("name", username);
+        result.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        result.put("roles", "[\"admin\"]");
+        // 菜单权限数据
+        result.put("routers", routerVolist);
+        // 按钮权限数据
+        result.put("buttons", permsList);
         return result;
     }
 }

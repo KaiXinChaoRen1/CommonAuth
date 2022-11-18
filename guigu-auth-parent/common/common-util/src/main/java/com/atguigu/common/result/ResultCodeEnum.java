@@ -19,7 +19,8 @@ public enum ResultCodeEnum {
     PASSWORD_ERROR(215, "密码不正确"),
     LOGIN_MOBLE_ERROR( 216, "账号不正确"),
     ACCOUNT_STOP( 217, "账号已停用"),
-    NODE_ERROR( 218, "该节点下有子节点，不可以删除")
+    NODE_ERROR( 218, "该节点下有子节点，不可以删除"),
+    LOGIN_FAILED(219,"登录失败")
     ;
 
     private Integer code;

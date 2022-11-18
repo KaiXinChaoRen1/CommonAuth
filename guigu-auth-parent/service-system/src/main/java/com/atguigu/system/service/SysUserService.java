@@ -1,7 +1,7 @@
 package com.atguigu.system.service;
 
-import com.atguigu.model.system.MySystemUser;
-import com.atguigu.model.vo.MySystemUserQueryVo;
+import com.atguigu.model.system.SysUser;
+import com.atguigu.model.vo.SysUserQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -16,17 +16,17 @@ import java.util.Map;
  * @author atguigu
  * @since 2022-09-28
  */
-public interface MySystemUserService extends IService<MySystemUser> {
+public interface SysUserService extends IService<SysUser> {
 
-    //用户列表
-    IPage<MySystemUser> selectPage(Page<MySystemUser> pageParam, MySystemUserQueryVo MySystemUserQueryVo);
+    // 用户列表
+    IPage<SysUser> selectPage(Page<SysUser> pageParam, SysUserQueryVo SysUserQueryVo);
 
-    //更改用户状态
+    // 更改用户状态
     void updateStatus(String id, Integer status);
 
-    //username查询
-    MySystemUser getUserInfoByUserName(String username);
+    // username查询
+    SysUser getUserInfoByUserName(String username);
 
-    //根据用户名称获取用户信息（基本信息 和 菜单权限 和 按钮权限数据）
+    // 根据用户名称获取用户信息（基本信息 和 菜单权限 和 按钮权限数据）
     Map<String, Object> getUserInfo(String username);
 }

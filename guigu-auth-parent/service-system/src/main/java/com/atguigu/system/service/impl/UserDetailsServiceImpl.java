@@ -1,9 +1,10 @@
 package com.atguigu.system.service.impl;
 
-import com.atguigu.model.system.MySystemUser;
+import com.atguigu.model.system.SysUser;
 import com.atguigu.system.custom.CustomUser;
 import com.atguigu.system.service.SysMenuService;
-import com.atguigu.system.service.MySystemUserService;
+import com.atguigu.system.service.SysUserService;
+import com.atguigu.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,28 +23,30 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private MySystemUserService MySystemUserService;
+    private SysUserService sysUserService;
 
     @Autowired
     private SysMenuService sysMenuService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MySystemUser MySystemUser = MySystemUserService.getUserInfoByUserName(username);
-        if(MySystemUser == null) {
+        //security登录流程查看3--->
+        SysUser SysUser = sysUserService.getUserInfoByUserName(username);
+        if (SysUser == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        if(MySystemUser.getStatus().intValue() == 0) {
+        if (SysUser.getStatus().intValue() == 0) {
             throw new RuntimeException("用户被禁用了");
         }
-        //根据userid查询操作权限数据
-        List<String> userPermsList = sysMenuService.getUserButtonList(MySystemUser.getId());
-        //转换security要求格式数据
+        // 根据userid查询操作权限数据
+        List<String> userPermsList = sysMenuService.getUserButtonList(SysUser.getId());
+        // 转换security要求格式数据
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (String perm:userPermsList) {
-            authorities.add(new SimpleGrantedAuthority(perm.trim()));
+        for (String perm : userPermsList) {
+            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(perm.trim());
+            authorities.add(simpleGrantedAuthority);
         }
 
-        return new CustomUser(MySystemUser, authorities);
+        return new CustomUser(SysUser, authorities);
     }
 }

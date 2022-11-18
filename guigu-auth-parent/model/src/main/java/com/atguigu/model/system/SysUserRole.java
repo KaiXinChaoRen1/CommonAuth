@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 @ApiModel(description = "用户角色")
 @TableName("sys_user_role")
-public class MySystemUserRole extends BaseEntity {
-	
+public class SysUserRole extends BaseEntity {
+
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "角色id")
@@ -22,4 +22,3 @@ public class MySystemUserRole extends BaseEntity {
 	@TableField("user_id")
 	private String userId;
 }
-

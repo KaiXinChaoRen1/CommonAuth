@@ -2,7 +2,6 @@
 //
 package com.atguigu.model.vo;
 
-
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,10 +12,10 @@ import java.io.Serializable;
  * </p>
  */
 @Data
-public class MySystemUserQueryVo implements Serializable {
-	
+public class SysUserQueryVo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String keyword;
 
 	private String createTimeBegin;
@@ -27,4 +26,3 @@ public class MySystemUserQueryVo implements Serializable {
 	private Long deptId;
 
 }
-
