@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  */
 @Data
-public class SysUserQueryVo implements Serializable {
+public class MySystemUserQueryVo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	

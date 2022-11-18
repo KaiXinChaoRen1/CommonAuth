@@ -1,11 +1,11 @@
 package com.atguigu.system.service.impl;
 
 import com.atguigu.model.system.SysRole;
-import com.atguigu.model.system.SysUserRole;
+import com.atguigu.model.system.MySystemUserRole;
 import com.atguigu.model.vo.AssginRoleVo;
 import com.atguigu.model.vo.SysRoleQueryVo;
 import com.atguigu.system.mapper.SysRoleMapper;
-import com.atguigu.system.mapper.SysUserRoleMapper;
+import com.atguigu.system.mapper.MySystemUserRoleMapper;
 import com.atguigu.system.service.SysRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
     @Autowired
-    private SysUserRoleMapper sysUserRoleMapper;
+    private MySystemUserRoleMapper MySystemUserRoleMapper;
 
     //条件分页查询
     @Override
@@ -38,12 +38,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         //获取所有角色
         List<SysRole> roles = baseMapper.selectList(null);
         //根据用户id查询，已经分配角色数据集合
-        QueryWrapper<SysUserRole> wrapper = new QueryWrapper<>();
+        QueryWrapper<MySystemUserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId);
-        List<SysUserRole> userRolesList = sysUserRoleMapper.selectList(wrapper);
+        List<MySystemUserRole> userRolesList = MySystemUserRoleMapper.selectList(wrapper);
         //从userRoles集合获取所有角色id
         List<String> userRoleIds = new ArrayList<>();
-        for (SysUserRole userRole:userRolesList) {
+        for (MySystemUserRole userRole:userRolesList) {
             String roleId = userRole.getRoleId();
             userRoleIds.add(roleId);
         }
@@ -58,17 +58,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public void doAssign(AssginRoleVo assginRoleVo) {
         //根据用户id删除之前分配角色
-        QueryWrapper<SysUserRole> wrapper = new QueryWrapper<>();
+        QueryWrapper<MySystemUserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",assginRoleVo.getUserId());
-        sysUserRoleMapper.delete(wrapper);
+        MySystemUserRoleMapper.delete(wrapper);
         //获取所有角色id，添加角色用户关系表
         //角色id列表
         List<String> roleIdList = assginRoleVo.getRoleIdList();
         for (String roleId:roleIdList) {
-            SysUserRole userRole = new SysUserRole();
+            MySystemUserRole userRole = new MySystemUserRole();
             userRole.setUserId(assginRoleVo.getUserId());
             userRole.setRoleId(roleId);
-            sysUserRoleMapper.insert(userRole);
+            MySystemUserRoleMapper.insert(userRole);
         }
     }
 }

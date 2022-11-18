@@ -4,7 +4,9 @@ import com.atguigu.common.utils.MD5;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-//自定义密码组件
+/**
+ * 自定义密码组件,实现接口重写方法
+ */
 @Component
 public class CustomMd5Password implements PasswordEncoder {
     public String encode(CharSequence rawPassword) {

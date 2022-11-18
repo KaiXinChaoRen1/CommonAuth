@@ -74,8 +74,8 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //生成token
         String token =
-                JwtHelper.createToken(customUser.getSysUser().getId(),
-                                      customUser.getSysUser().getUsername());
+                JwtHelper.createToken(customUser.getMySystemUser().getId(),
+                                      customUser.getMySystemUser().getUsername());
 
         //记录登录日志
         loginLogService.recordLoginLog(customUser.getUsername(),1,

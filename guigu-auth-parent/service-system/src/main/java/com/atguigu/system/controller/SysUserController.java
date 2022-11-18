@@ -3,9 +3,9 @@ package com.atguigu.system.controller;
 
 import com.atguigu.common.result.Result;
 import com.atguigu.common.utils.MD5;
-import com.atguigu.model.system.SysUser;
-import com.atguigu.model.vo.SysUserQueryVo;
-import com.atguigu.system.service.SysUserService;
+import com.atguigu.model.system.MySystemUser;
+import com.atguigu.model.vo.MySystemUserQueryVo;
+import com.atguigu.system.service.MySystemUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "用户管理接口")
 @RestController
-@RequestMapping("/admin/system/sysUser")
-public class SysUserController {
+@RequestMapping("/admin/system/MySystemUser")
+public class MySystemUserController {
 
     @Autowired
-    private SysUserService sysUserService;
+    private MySystemUserService MySystemUserService;
 
     @ApiOperation("更改用户状态(0-停用,1-正常使用)")
     @GetMapping("updateStatus/{id}/{status}")
     public Result updateStatus(@PathVariable String id,
                                @PathVariable Integer status) {
-        sysUserService.updateStatus(id, status);
+        MySystemUserService.updateStatus(id, status);
         return Result.ok();
     }
 
@@ -36,9 +36,9 @@ public class SysUserController {
     @GetMapping("/{page}/{limit}")
     public Result list(@PathVariable Long page,
                        @PathVariable Long limit,
-                       SysUserQueryVo sysUserQueryVo) {
-        Page<SysUser> pageParam = new Page<>(page, limit);
-        IPage<SysUser> pageModel = sysUserService.selectPage(pageParam, sysUserQueryVo);
+                       MySystemUserQueryVo MySystemUserQueryVo) {
+        Page<MySystemUser> pageParam = new Page<>(page, limit);
+        IPage<MySystemUser> pageModel = MySystemUserService.selectPage(pageParam, MySystemUserQueryVo);
         return Result.ok(pageModel);
     }
 
@@ -47,11 +47,11 @@ public class SysUserController {
      */
     @ApiOperation("添加用户")
     @PostMapping("save")
-    public Result save(@RequestBody SysUser user) {
+    public Result save(@RequestBody MySystemUser user) {
         //密码进行MD5加密
         String encryptedPassword = MD5.encrypt(user.getPassword());
         user.setPassword(encryptedPassword);
-        boolean is_Success = sysUserService.save(user);
+        boolean is_Success = MySystemUserService.save(user);
         if (is_Success) {
             return Result.ok();
         } else {
@@ -62,14 +62,14 @@ public class SysUserController {
     @ApiOperation("根据id查询")
     @GetMapping("getUser/{id}")
     public Result getUser(@PathVariable String id) {
-        SysUser user = sysUserService.getById(id);
+        MySystemUser user = MySystemUserService.getById(id);
         return Result.ok(user);
     }
 
     @ApiOperation("修改用户")
     @PostMapping("update")
-    public Result update(@RequestBody SysUser user) {
-        boolean is_Success = sysUserService.updateById(user);
+    public Result update(@RequestBody MySystemUser user) {
+        boolean is_Success = MySystemUserService.updateById(user);
         if (is_Success) {
             return Result.ok();
         } else {
@@ -80,7 +80,7 @@ public class SysUserController {
     @ApiOperation("删除用户")
     @DeleteMapping("remove/{id}")
     public Result remove(@PathVariable String id) {
-        boolean is_Success = sysUserService.removeById(id);
+        boolean is_Success = MySystemUserService.removeById(id);
         if (is_Success) {
             return Result.ok();
         } else {

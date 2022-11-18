@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @ApiModel(description = "用户")
 @TableName("sys_user")
-public class SysUser extends BaseEntity {
+public class MySystemUser extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 

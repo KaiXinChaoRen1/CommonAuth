@@ -1,7 +1,7 @@
 package com.atguigu.system.mapper;
 
-import com.atguigu.model.system.SysUser;
-import com.atguigu.model.vo.SysUserQueryVo;
+import com.atguigu.model.system.MySystemUser;
+import com.atguigu.model.vo.MySystemUserQueryVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Param;
  * @author atguigu
  * @since 2022-09-28
  */
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface MySystemUserMapper extends BaseMapper<MySystemUser> {
 
-    IPage<SysUser> selectPage(Page<SysUser> pageParam, @Param("vo") SysUserQueryVo sysUserQueryVo);
+    IPage<MySystemUser> selectPage(Page<MySystemUser> pageParam, @Param("vo") MySystemUserQueryVo MySystemUserQueryVo);
 }
