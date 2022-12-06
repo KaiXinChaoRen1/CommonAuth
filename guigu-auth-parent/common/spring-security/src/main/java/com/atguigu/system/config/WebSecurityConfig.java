@@ -19,7 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration                                          //security配置类
+@Configuration                                          //配置类
 @EnableWebSecurity                                      //@EnableWebSecurity是开启SpringSecurity的默认行为
 @EnableGlobalMethodSecurity(prePostEnabled = true)      //开启注解功能，默认禁用注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

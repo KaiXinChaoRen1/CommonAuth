@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * 登录过滤器,继承并重写方法
  */
-public class LoginFilter extends UsernamePasswordAuthenticationFilter {
+public class  LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private RedisTemplate redisTemplate;
 

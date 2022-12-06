@@ -40,8 +40,8 @@ public class OncePerRequestTokenAuthenticationFilter extends OncePerRequestFilte
                                     FilterChain chain) throws IOException, ServletException {
 
         logger.info("uri:" + request.getRequestURI());
-        //如果是登录接口，直接放行(就会去访问这个路径,再被security抓到)
-        //security登录流程查看1--->所有请求首先进到这里
+
+        //如果是访问登录接口，直接放行
         if ("/admin/system/index/login".equals(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
@@ -51,18 +51,20 @@ public class OncePerRequestTokenAuthenticationFilter extends OncePerRequestFilte
             chain.doFilter(request, response);
             return;
         }
-        //不是登录接口需要验证token
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
+        //不是登录接口需要验证token,从redis取出全部信息
+        UsernamePasswordAuthenticationToken authentication = this.getAuthentication(request);
         if (null != authentication) {
+            //放行
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
         } else {
+            //根据token获取不到正确信息或者没有token,直接拒绝访问
             ResponseUtil.out(response, Result.build(null, ResultCodeEnum.PERMISSION));
         }
     }
 
-    //解析验证token的方法
+    //验证token,取出redis中用户的所有信息
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("token");
         logger.info("token:" + token);

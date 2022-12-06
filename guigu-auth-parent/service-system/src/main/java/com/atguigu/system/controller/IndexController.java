@@ -27,33 +27,33 @@ public class IndexController {
     /**
      * 登录并生成jwt
      */
-    @PostMapping("login")
-    public Result login(@RequestBody LoginVo loginVo) {
-
-        // 1.根据username查询是否有用户
-        SysUser SysUser = SysUserService.getUserInfoByUserName(loginVo.getUsername());
-        if (SysUser == null) {
-            throw new GuiguException(20001, "用户不存在");
-        }
-        // 2.判断密码是否一致
-        String password = loginVo.getPassword();
-        String md5Password = MD5.encrypt(password);
-        if (!SysUser.getPassword().equals(md5Password)) {
-            throw new GuiguException(20001, "密码不正确");
-        }
-        // 判断用户状态-是否被禁用
-        if (SysUser.getStatus().intValue() == 0) {
-            throw new GuiguException(20001, "用户已经被禁用");
-        }
-        // 成功登录->根据userid和username生成JWT字符串
-        String token = JwtHelper.createToken(SysUser.getId(), SysUser.getUsername());
-        // 返回
-        Map<String, Object> map = new HashMap<>();
-        map.put("token", token);
-        return Result.ok(map);
-
-
-    }
+//    @PostMapping("login")
+//    public Result login(@RequestBody LoginVo loginVo) {
+//
+//        // 1.根据username查询是否有用户
+//        SysUser SysUser = SysUserService.getUserInfoByUserName(loginVo.getUsername());
+//        if (SysUser == null) {
+//            throw new GuiguException(20001, "用户不存在");
+//        }
+//        // 2.判断密码是否一致
+//        String password = loginVo.getPassword();
+//        String md5Password = MD5.encrypt(password);
+//        if (!SysUser.getPassword().equals(md5Password)) {
+//            throw new GuiguException(20001, "密码不正确");
+//        }
+//        // 判断用户状态-是否被禁用
+//        if (SysUser.getStatus().intValue() == 0) {
+//            throw new GuiguException(20001, "用户已经被禁用");
+//        }
+//        // 成功登录->根据userid和username生成JWT字符串
+//        String token = JwtHelper.createToken(SysUser.getId(), SysUser.getUsername());
+//        // 返回
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("token", token);
+//        return Result.ok(map);
+//
+//
+//    }
 
     /**
      * 根据请求头里的JWT获取用户详细信息
@@ -68,7 +68,6 @@ public class IndexController {
         // 根据用户名称获取用户信息（基本信息 和 菜单权限 和 按钮权限数据）
         Map<String, Object> map = SysUserService.getUserInfo(username);
         return Result.ok(map);
-
 
     }
 
