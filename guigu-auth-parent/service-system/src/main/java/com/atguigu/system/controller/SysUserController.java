@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "用户管理接口")
 @RestController
-@RequestMapping("/admin/system/SysUser")
+@RequestMapping("/admin/system/sysUser")
 public class SysUserController {
 
     @Autowired

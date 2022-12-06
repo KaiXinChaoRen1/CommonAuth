@@ -1,10 +1,10 @@
 package com.atguigu.system.service.impl;
 
+import com.atguigu.common.exception.GuiguException;
 import com.atguigu.model.system.SysMenu;
 import com.atguigu.model.system.SysRoleMenu;
 import com.atguigu.model.vo.AssginMenuVo;
 import com.atguigu.model.vo.RouterVo;
-import com.atguigu.system.exception.GuiguException;
 import com.atguigu.system.mapper.SysMenuMapper;
 import com.atguigu.system.mapper.SysRoleMenuMapper;
 import com.atguigu.system.service.SysMenuService;

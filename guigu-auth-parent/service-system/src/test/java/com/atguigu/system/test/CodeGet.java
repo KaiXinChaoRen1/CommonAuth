@@ -9,6 +9,10 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
+/**
+ * mybatis-plus代码生成器
+ */
+
 public class CodeGet {
 
     public static void main(String[] args) {

@@ -4,7 +4,6 @@ import com.atguigu.model.system.SysUser;
 import com.atguigu.system.custom.CustomUser;
 import com.atguigu.system.service.SysMenuService;
 import com.atguigu.system.service.SysUserService;
-import com.atguigu.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,11 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * security-用户信息查询
+ * 自定义security组件-根据username获取用户信息,包括账号密码权限等,供其他过滤器链使用
  */
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -38,6 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (SysUser.getStatus().intValue() == 0) {
             throw new RuntimeException("用户被禁用了");
         }
+
         // 根据userid查询操作权限数据
         List<String> userPermsList = sysMenuService.getUserButtonList(SysUser.getId());
         // 转换security要求格式数据
@@ -47,6 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authorities.add(simpleGrantedAuthority);
         }
 
+        //封装成UserDetails返回
         return new CustomUser(SysUser, authorities);
     }
 }

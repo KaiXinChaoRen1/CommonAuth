@@ -1,4 +1,4 @@
-package com.atguigu.system.exception;
+package com.atguigu.common.exception;
 
 import com.atguigu.common.result.Result;
 import com.atguigu.common.result.ResultCodeEnum;

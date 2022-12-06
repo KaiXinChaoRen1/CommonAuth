@@ -21,13 +21,18 @@
         <!--自己写的模块-->
         <dependency>
             <groupId>com.atguigu</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>common-model</artifactId>
             <version>1.0</version>
         </dependency>
         <!-- Spring Security依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!--lombok用来简化实体类-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>

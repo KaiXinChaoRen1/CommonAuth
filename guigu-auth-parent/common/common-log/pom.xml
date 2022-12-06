@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.atguigu</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>common-model</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

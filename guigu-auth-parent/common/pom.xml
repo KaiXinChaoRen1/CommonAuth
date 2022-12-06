@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>common-util</module>
-        <module>service-util</module>
+        <module>common-model</module>
         <module>spring-security</module>
         <module>common-log</module>
     </modules>

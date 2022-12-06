@@ -1,4 +1,4 @@
-package com.atguigu.system.config;
+package com.atguigu.common.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

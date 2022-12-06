@@ -65,9 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
+    /**
+     *  指定UserDetailService和加密器
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 指定UserDetailService和加密器
         auth.userDetailsService(userDetailsService).passwordEncoder(customMd5PasswordEncoder);
     }
 
@@ -77,6 +79,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/doc.html");
+        web.ignoring().antMatchers(
+                "/favicon.ico",
+                "/swagger-resources/**",
+                "/webjars/**",
+                "/v2/**",
+                "/swagger-ui.html/**",
+                "/doc.html");
     }
 }
