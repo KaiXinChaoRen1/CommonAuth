@@ -70,10 +70,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         result.put("name", username);
         result.put("avatar", "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         result.put("roles", "[\"admin\"]");
-        // 菜单权限数据
-        result.put("routers", routerVolist);
-        // 按钮权限数据
-        result.put("buttons", permsList);
+        result.put("routers", routerVolist);     // 菜单权限数据
+        result.put("buttons", permsList);        // 按钮权限数据
         return result;
     }
 }

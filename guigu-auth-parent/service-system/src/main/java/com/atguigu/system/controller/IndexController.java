@@ -24,9 +24,6 @@ public class IndexController {
     @Autowired
     private SysUserService SysUserService;
 
-    /**
-     * 登录并生成jwt
-     */
 //    @PostMapping("login")
 //    public Result login(@RequestBody LoginVo loginVo) {
 //
@@ -61,10 +58,8 @@ public class IndexController {
     @GetMapping("info")
     public Result info(HttpServletRequest request) {
 
-        // 获取请求头token字符串,从token中获取username
         String token = request.getHeader("token");
         String username = JwtHelper.getUsername(token);
-
         // 根据用户名称获取用户信息（基本信息 和 菜单权限 和 按钮权限数据）
         Map<String, Object> map = SysUserService.getUserInfo(username);
         return Result.ok(map);

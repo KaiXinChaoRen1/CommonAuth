@@ -23,7 +23,7 @@ public class SysMenuController {
 
     //***************给角色分配菜单权限跟给用户分配角色类似***************
 
-    @ApiOperation("给角色分配菜单权限")
+    @ApiOperation("给角色分配权限")
     @PostMapping("/doAssign")
     public Result doAssign(@RequestBody AssginMenuVo assginMenuVo) {
         sysMenuService.doAssign(assginMenuVo);

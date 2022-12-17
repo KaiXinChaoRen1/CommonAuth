@@ -92,7 +92,6 @@ public class SysRoleController {
     }
 
     //3 条件分页查询,学了一百遍了
-    // page当前页  limit每页记录数
     @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     @ApiOperation("条件分页查询")
     @GetMapping("{page}/{limit}")

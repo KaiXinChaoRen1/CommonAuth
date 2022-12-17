@@ -9,12 +9,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Api(tags = "用户管理接口")
 @RestController
 @RequestMapping("/admin/system/sysUser")
+@Slf4j
 public class SysUserController {
 
     @Autowired
@@ -23,7 +28,7 @@ public class SysUserController {
     @ApiOperation("更改用户状态(0-停用,1-正常使用)")
     @GetMapping("updateStatus/{id}/{status}")
     public Result updateStatus(@PathVariable String id,
-            @PathVariable Integer status) {
+                               @PathVariable Integer status) {
         SysUserService.updateStatus(id, status);
         return Result.ok();
     }
@@ -33,8 +38,8 @@ public class SysUserController {
     @ApiOperation("用户列表(条件分页)")
     @GetMapping("/{page}/{limit}")
     public Result list(@PathVariable Long page,
-            @PathVariable Long limit,
-            SysUserQueryVo SysUserQueryVo) {
+                       @PathVariable Long limit,
+                       SysUserQueryVo SysUserQueryVo) {
         Page<SysUser> pageParam = new Page<>(page, limit);
         IPage<SysUser> pageModel = SysUserService.selectPage(pageParam, SysUserQueryVo);
         return Result.ok(pageModel);
@@ -47,13 +52,28 @@ public class SysUserController {
     @PostMapping("save")
     public Result save(@RequestBody SysUser user) {
         // 密码进行MD5加密
+        String password = user.getPassword();
+        if(!StringUtils.hasText(password)){
+            return Result.fail().message("密码不能没有内容");
+        }
+        if(StringUtils.containsWhitespace(password)){
+            return Result.fail().message("密码不能包含空格");
+        }
+        if(password.trim().length()<6){
+            return Result.fail().message("密码不能小于六位");
+        }
         String encryptedPassword = MD5.encrypt(user.getPassword());
         user.setPassword(encryptedPassword);
-        boolean is_Success = SysUserService.save(user);
-        if (is_Success) {
-            return Result.ok();
-        } else {
-            return Result.fail();
+        try {
+            boolean is_Success = SysUserService.save(user);
+            if (is_Success) {
+                return Result.ok();
+            } else {
+                return Result.fail();
+            }
+        } catch (Exception e) {
+            log.error("错误被捕获处理:",e);
+            return Result.fail().message("添加用户失败");
         }
     }
 
