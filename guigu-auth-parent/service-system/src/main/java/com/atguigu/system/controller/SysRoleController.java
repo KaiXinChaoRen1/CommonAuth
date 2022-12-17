@@ -78,7 +78,6 @@ public class SysRoleController {
     }
 
     //4 添加
-    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     @ApiOperation("添加角色")
     @PostMapping("save")

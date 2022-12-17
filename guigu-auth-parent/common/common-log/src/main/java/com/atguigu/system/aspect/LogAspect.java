@@ -6,6 +6,7 @@ import com.atguigu.common.utils.JwtHelper;
 import com.atguigu.model.system.SysOperLog;
 import com.atguigu.system.annotation.Log;
 import com.atguigu.system.service.OperLogService;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,8 +25,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * AOP+注解
+ * 实现记录操作日志
+ */
+
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
 
     @Autowired
@@ -42,60 +49,54 @@ public class LogAspect {
             ServletRequestAttributes sra = (ServletRequestAttributes) ra;
             HttpServletRequest request = sra.getRequest();
 
-            // *========数据库日志=========*//
+            //创建操作日志记录对象
             SysOperLog operLog = new SysOperLog();
-            //状态
-            operLog.setStatus(1);
-
-            // 请求的地址
-            String ip = IpUtil.getIpAddress(request);//IpUtil.getIpAddr(ServletUtils.getRequest());
+            //set请求的地址
+            String ip = IpUtil.getIpAddress(request);
             operLog.setOperIp(ip);
             operLog.setOperUrl(request.getRequestURI());
-
+            //set状态
+            operLog.setStatus(1);
+            //set用户名
             String token = request.getHeader("token");
             String userName = JwtHelper.getUsername(token);
             operLog.setOperName(userName);
-
+            //set错误信息
             if (e != null) {
                 operLog.setStatus(0);
                 operLog.setErrorMsg(e.getMessage());
             }
-
-            // 设置方法名称
+            // set方法名称
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
             operLog.setMethod(className + "." + methodName + "()");
 
-            // 设置请求方式
+            // set请求方式
             operLog.setRequestMethod(request.getMethod());
 
-            // 处理设置注解上的参数
-            getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
+            // set设置注解上的参数
+            this.getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
 
-            // 操作日志保存数据库
+            // 保存数据库
             operLogService.saveSysLog(operLog);
         } catch (Exception exp) {
-            exp.printStackTrace();
+            log.error("记录操作日志");
         }
     }
 
     /**
-     * 获取注解中对方法的描述信息 用于Controller层注解
-     *
-     * @param log     日志
-     * @param operLog 操作日志
-     * @throws Exception
+     * set设置注解里的参数
+     * 下面四个方法,一个调一个
      */
     public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception {
-        // 设置action动作
-        operLog.setBusinessType(log.businessType().name());
-        // 设置标题
+        // set标题
         operLog.setTitle(log.title());
-        // 设置操作人类别
+        // set业务类型(新增,修改,删除等)
+        operLog.setBusinessType(log.businessType().name());
+        // 设置操作人类别(后台用户,手机用户等)
         operLog.setOperatorType(log.operatorType().name());
         // 是否需要保存request，参数和值
         if (log.isSaveRequestData()) {
-            // 获取参数的信息，传入到数据库中。
             setRequestValue(joinPoint, operLog);
         }
         // 是否需要保存response，参数和值
@@ -106,9 +107,6 @@ public class LogAspect {
 
     /**
      * 获取请求的参数，放到log中
-     *
-     * @param operLog 操作日志
-     * @throws Exception 异常
      */
     private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog) throws Exception {
         String requestMethod = operLog.getRequestMethod();

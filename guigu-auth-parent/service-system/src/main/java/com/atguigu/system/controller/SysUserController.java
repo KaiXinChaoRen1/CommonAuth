@@ -4,6 +4,7 @@ import com.atguigu.common.result.Result;
 import com.atguigu.common.utils.MD5;
 import com.atguigu.model.system.SysUser;
 import com.atguigu.model.vo.SysUserQueryVo;
+import com.atguigu.system.annotation.Log;
 import com.atguigu.system.service.SysUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -34,7 +35,7 @@ public class SysUserController {
     }
 
     // ********************************基础CRUD*******************************
-
+    @Log(title = "查看用户")
     @ApiOperation("用户列表(条件分页)")
     @GetMapping("/{page}/{limit}")
     public Result list(@PathVariable Long page,

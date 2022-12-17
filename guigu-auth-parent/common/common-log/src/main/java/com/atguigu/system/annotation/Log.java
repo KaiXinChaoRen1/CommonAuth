@@ -5,8 +5,12 @@ import com.atguigu.system.enums.OperatorType;
 
 import java.lang.annotation.*;
 
-@Target({ElementType.PARAMETER,ElementType.METHOD})
+
+//定义注解可以使用的位置
+@Target({ElementType.PARAMETER, ElementType.METHOD})
+//运行时起作用?
 @Retention(RetentionPolicy.RUNTIME)
+//??
 @Documented
 public @interface Log {
 
