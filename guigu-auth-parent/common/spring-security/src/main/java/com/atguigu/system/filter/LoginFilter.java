@@ -7,6 +7,7 @@ import com.atguigu.common.utils.JwtHelper;
 import com.atguigu.common.utils.ResponseUtil;
 import com.atguigu.model.vo.LoginVo;
 import com.atguigu.system.custom.CustomUser;
+
 import com.atguigu.system.service.LoginLogService;
 import com.atguigu.system.utils.IpUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +36,8 @@ public class  LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private LoginLogService loginLogService;
 
+
+
     /**
      * 构造方法,指定登录接口及提交方式
      */
@@ -46,8 +49,11 @@ public class  LoginFilter extends UsernamePasswordAuthenticationFilter {
         // 指定登录接口及提交方式，可以指定任意路径
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/admin/system/index/login", "POST"));
         this.redisTemplate = redisTemplate;
+        //添加日志记录Service
         this.loginLogService = loginLogService;
     }
+    private String username = "未初始化用户名";
+    private String password = "未初始化密码";
 
     // 获取用户名和密码，认证
     @Override
@@ -59,8 +65,8 @@ public class  LoginFilter extends UsernamePasswordAuthenticationFilter {
             // 获取用户登录携带的信息
             LoginVo loginVo = new ObjectMapper().readValue(request.getInputStream(), LoginVo.class);
             //将用户名和密码信息封装成成指定对象
-            String username = loginVo.getUsername();
-            String password = loginVo.getPassword();
+            username = loginVo.getUsername();
+            password = loginVo.getPassword();
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
 
@@ -102,7 +108,7 @@ public class  LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = customUser.getSysUser().getUsername();
         String token = JwtHelper.createToken(id, username);
 
-        // (记录登录日志)
+        // (认证成功之后,记录登录日志)
         loginLogService.recordLoginLog(customUser.getUsername(), 1,
                 IpUtil.getIpAddress(request), "登录成功");
 
@@ -118,6 +124,11 @@ public class  LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException e) throws IOException, ServletException {
+
+        // (认证失败之后,也需要记录登录日志)
+        loginLogService.recordLoginLog("登录失败用户", -1,
+                IpUtil.getIpAddress(request), "登陆失败:用户使用的用户名是"+username+",密码是"+password);
+
         //security登录流程查看5--->登录认证失败
         if (e.getCause() instanceof RuntimeException) {
             ResponseUtil.out(response, Result.build(null, 204, e.getMessage()));
