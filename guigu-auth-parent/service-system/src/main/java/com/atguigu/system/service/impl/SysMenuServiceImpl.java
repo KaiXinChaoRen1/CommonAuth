@@ -144,10 +144,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<String> getUserButtonList(String userId) {
         List<SysMenu> sysMenuList = null;
         if ("1".equals(userId)) {
+            //内定userId==1有所有权限,查询所有可用权限(status==1)
             QueryWrapper<SysMenu> wrapper = new QueryWrapper<SysMenu>();
             wrapper.eq("status", 1);
             sysMenuList = baseMapper.selectList(wrapper);
         } else {
+            //通过自定义SQl的方式实现的业务处理
             sysMenuList = baseMapper.findMenuListUserId(userId);
         }
         //返回数据

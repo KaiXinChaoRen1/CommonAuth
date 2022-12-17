@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         // 根据userid查询操作权限数据
         List<String> userPermsList = sysMenuService.getUserButtonList(SysUser.getId());
-        // 转换security要求格式数据
+        // 封装成security要求的数据格式
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (String perm : userPermsList) {
             SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(perm.trim());

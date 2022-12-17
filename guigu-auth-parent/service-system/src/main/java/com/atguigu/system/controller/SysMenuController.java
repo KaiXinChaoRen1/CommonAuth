@@ -13,7 +13,7 @@ import java.util.List;
 /**
  *  68~80集
  */
-@Api(tags = "菜单权限管理")
+@Api(tags = "菜单 & 按钮 & 权限 的管理")
 @RestController
 @RequestMapping("/admin/system/sysMenu")
 public class SysMenuController {

@@ -24,6 +24,14 @@ public class IndexController {
     @Autowired
     private SysUserService SysUserService;
 
+    /**
+     * 用于swagger获取token的
+     */
+    @PostMapping("login")
+    public Result login(@RequestBody LoginVo loginVo) {
+        return Result.ok();
+    }
+
 //    @PostMapping("login")
 //    public Result login(@RequestBody LoginVo loginVo) {
 //
